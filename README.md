@@ -1,56 +1,80 @@
-# Welcome to your Expo app 👋
+# 🛍️ متجر النخبة للتسوق — Elite Store (React Native + Expo)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+تطبيق متجر إلكتروني متنقل متكامل، مصمم بالكامل للعميل النهائي (**Customer-First Mobile Experience**) باستخدام **React Native** و **Expo** (مع دعم كامل لـ **Expo Go** و **Expo Router v58**).
 
-## Get started
+---
 
-1. Install dependencies
+## 🌟 مميزات التطبيق الرئيسية
 
-   ```bash
-   npm install
-   ```
+### 1. تجربة مخصصة للعميل فقط (Customer Only)
+- تم بناء التطبيق خصيصاً لتوفير تجربة تسوق راقية وسلسة للمتسوقين (استعراض المنتجات، تصفح الأقسام، البحث الفوري، الاطلاع على تفاصيل المنتج والخيارات، السلة، وإتمام الطلب).
+- خالٍ تماماً من لوحات إدارة المتاجر، واجهات التجار، أو إعدادات المالك.
 
-2. Start the app
+### 2. متجر واحد موحد متكامل (Single Store – No Theme Previews)
+- متجر واحد موحد وشامل بهوية براند فخمة وعصرية، تم إلغاء معاينات الثيمات والمتاجر المتعددة.
+- تصميم متناسق ومميز في الألوان، الخطوط، الهوامش، البطاقات، والأزرار عبر جميع الشاشات.
 
-   ```bash
-   npx expo start
-   ```
+### 3. دعم كامل ومزدوج للغتين العربية والإنجليزية (Bilingual AR / EN & RTL / LTR)
+- **العربية (AR):** واجهة عربية كاملة بنصوص معربة بدقة واتجاه من اليمين إلى اليسار (RTL) يتكيف تلقائياً في التخطيط، العناوين، الأيقونات، المحاذاة، والنماذج.
+- **الإنجليزية (EN):** واجهة إنجليزية كاملة باتجاه من اليسار إلى اليمين (LTR).
+- **تبديل فوري وديناميكي:** تغيير اللغة يحدّث التطبيق بالكامل وبشكل لحظي في جميع الشاشات دون الحاجة لإعادة تشغيل التطبيق.
+- **حفظ التفضيلات:** حفظ اللغة المختارة محلياً عبر `AsyncStorage` لتبقى مفعلة عند إعادة فتح التطبيق، والبدء باللغة الإنجليزية كافتراضي أولي.
+- نظام ترجمة مركزي متين مبني على `i18next` و `react-i18next`.
 
-In the output, you'll find options to open the app in a
+### 4. مصادقة المستخدمين وحفظ الحسابات الآمن (Authentication & Persistence)
+- **إنشاء حساب جديد (Sign Up):**
+  - الاسم الكامل، البريد الإلكتروني، كلمة المرور، وتأكيد كلمة المرور.
+  - تحقق فوري من صحة المدخلات وصيغة البريد وتطابق كلمتي المرور.
+  - إمكانية إظهار/إخفاء كلمة المرور وتأكيدها.
+  - رسالة نجاح واضحة ودخول مباشر للمتجر.
+- **تسجيل الدخول (Login):**
+  - البريد الإلكتروني وكلمة المرور مع خيار "تذكرني" (Remember Me).
+  - إظهار رسائل خطأ دقيقة عند إدخال بيانات غير صحيحة.
+  - زر إظهار/إخفاء كلمة المرور.
+- **استمرارية وأمان الحسابات (Account Persistence):**
+  - تشفير وتجزئة كلمات المرور باستخدام **PBKDF2 مع SHA-256 و Salt عشوائي مشفر** (لا يتم تخزين كلمات المرور كنص صريح مطلقاً).
+  - حفظ الحسابات وجلسات الدخول محلياً وبشكل دائم عبر **Expo SecureStore** بحيث تظل محفوظة بعد إغلاق التطبيق وإعادة فتحه، مع إمكانية تسجيل الخروج والعودة لنفس الحساب.
+- **تنقل محمي (Protected Navigation):**
+  - توجيه المستخدم غير المسجل لشاشات تسجيل الدخول وإنشاء الحساب.
+  - توجيه المستخدم المسجل مباشرة لشاشات التسوق الرئيسية.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### 5. ملف العميل الشخصي (Customer Profile)
+- استعراض بيانات الحساب، الصورة الرمزية، الاسم، والبريد الإلكتروني.
+- تعديل الاسم وتحديثه محلياً مع رسائل تأكيد فورية.
+- إدارة تفضيلات اللغة (عربي / إنجليزي).
+- تسجيل الخروج الآمن مع نافذة تأكيد.
 
-You can start developing by editing the files inside the **src/app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+---
 
-## Get a fresh project
+## 📱 تدفق الشاشات (Navigation Flow)
 
-When you're ready, run:
+1. **المصادقة (Authentication Screens):**
+   - `src/app/login.tsx`: تسجيل الدخول مع تذكرني ورابط إنشاء الحساب.
+   - `src/app/register.tsx`: شاشة إنشاء حساب جديد متكاملة مع التحقق وكلمات المرور.
+2. **المتجر الرئيسي (Customer Shopping Tabs):**
+   - `src/app/(tabs)/index.tsx`: الرئيسية مع بنرات عروض متحركة، شريط أقسام أفقي، وشبكة المنتجات المختارة.
+   - `src/app/(tabs)/categories.tsx`: استعراض أقسام وتصنيفات المتجر.
+   - `src/app/(tabs)/search.tsx`: البحث الفوري عن المنتجات بالاسم والوصف.
+   - `src/app/(tabs)/cart.tsx`: سلة المشتريات، تعديل الكميات، تطبيق كوبونات الخصم، وملخص الفاتورة.
+   - `src/app/(tabs)/profile.tsx`: الملف الشخصي، تعديل الاسم، تبديل اللغة، وتسجيل الخروج.
+3. **تفاصيل المنتجات والطلب:**
+   - `src/app/product/[id].tsx`: معرض صور المنتج، اختيار المقاسات/الأوزان/خيارات المنتج، وحساب السعر الديناميكي.
+   - `src/app/checkout.tsx`: بيانات الشحن والتوصيل، خيارات شركات الشحن، طرق الدفع المتنوعة، وتأكيد الطلب.
+
+---
+
+## 🛠️ أوامر التشغيل والفحص (Commands)
 
 ```bash
-npm run reset-project
+# تشغيل خادم التطوير
+npx expo start
+
+# فحص الأنواع (TypeScript Check)
+npx tsc --noEmit
+
+# فحص جودة الكود والتنسيق (ESLint)
+npx eslint .
+
+# تشغيل الاختبارات الآلية (Jest Unit & Flow Tests)
+npm test
 ```
-
-This command will move the starter code to the **example** directory and create a blank **src/app** directory where you can start developing.
-
-### Other setup steps
-
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
